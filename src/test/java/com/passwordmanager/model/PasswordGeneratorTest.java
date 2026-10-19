@@ -92,9 +92,26 @@ class PasswordGeneratorTest {
 
         // Assert (Verificar)
         assertNotNull(contrasena);
-        assertTrue(contrasena.matches(".*[A-Z].*"), "Debe contener al menos una mayúscula.");
-        assertTrue(contrasena.matches(".*[a-z].*"), "Debe contener al menos una minúscula.");
-        assertTrue(contrasena.matches(".*[0-9].*"), "Debe contener al menos un número.");
-        assertTrue(contrasena.matches(".*[!@#$%^&*()\\-_=+\\[\\]{}|;:,.<>?].*"), "Debe contener al menos un carácter especial.");
+        assertTrue(
+    contrasena.chars().anyMatch(Character::isUpperCase),
+    "Debe contener al menos una mayúscula."
+);
+
+assertTrue(
+    contrasena.chars().anyMatch(Character::isLowerCase),
+    "Debe contener al menos una minúscula."
+);
+
+assertTrue(
+    contrasena.chars().anyMatch(Character::isDigit),
+    "Debe contener al menos un número."
+);
+
+assertTrue(
+    contrasena.chars().anyMatch(
+        c -> "!@#$%^&*()-_=+[]{}|;:,.<>?".indexOf(c) >= 0
+    ),
+    "Debe contener al menos un carácter especial."
+);
     }
 }

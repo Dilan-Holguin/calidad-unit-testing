@@ -4,7 +4,10 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'jacoco'
+    id 'org.sonarqube' version '7.1.0.6387'
+    
 }
+
 
 repositories {
     mavenCentral()
@@ -12,10 +15,20 @@ repositories {
 jacoco {
     toolVersion = "0.8.15"
 }
+sonar {
+    properties {
+        property "sonar.projectKey", "Dilan-Holguin_calidad-unit-testing"
+        property "sonar.organization", "dilan-holguin"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.coverage.jacoco.xmlReportPaths",
+                "build/reports/jacoco/test/jacocoTestReport.xml"
+    }
+}
 dependencies {
     // JUnit 5 para pruebas unitarias y de rendimiento
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'io.karatelabs:karate-junit5:1.5.2'
 }
 
 javafx {

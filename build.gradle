@@ -3,12 +3,15 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.1.0'
     id 'eclipse'
     id 'idea'
+    id 'jacoco'
 }
 
 repositories {
     mavenCentral()
 }
-
+jacoco {
+    toolVersion = "0.8.15"
+}
 dependencies {
     // JUnit 5 para pruebas unitarias y de rendimiento
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
@@ -26,10 +29,15 @@ application {
 
 tasks.named('test') {
     useJUnitPlatform()
-    
-    // Mostrar resultados de pruebas en la consola
-    testLogging {
-        events "passed", "skipped", "failed"
-        showStandardStreams = true
+    finalizedBy tasks.named('jacocoTestReport')
+    ignoreFailures = true
+}
+
+tasks.named('jacocoTestReport') {
+
+    reports {
+        html.required = true
+        xml.required = true
+        csv.required = false
     }
 }

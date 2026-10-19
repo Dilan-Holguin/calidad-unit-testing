@@ -1,5 +1,5 @@
 package com.passwordmanager.model;
-
+import java.util.regex.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +8,17 @@ import java.util.List;
  * y proveer retroalimentación de seguridad.
  */
 public class PasswordValidator {
+    private static final Pattern MAYUSCULAS =
+        Pattern.compile(".*[A-Z].*");
 
+    private static final Pattern MINUSCULAS =
+        Pattern.compile(".*[a-z].*");
+
+    private static final Pattern NUMEROS =
+        Pattern.compile(".*[0-9].*");
+
+    private static final Pattern ESPECIALES =
+        Pattern.compile(".*[!@#$%^&*()\\-_=+\\[\\]{}|;:,.<>?].*");
     public enum Strength {
         DEBIL,
         MEDIA,
@@ -68,21 +78,21 @@ public class PasswordValidator {
         }
 
         // Regla 2: Letras Mayúsculas
-        if (password.matches(".*[A-Z].*")) {
+        if (MAYUSCULAS.matcher(password).matches()) {
             score++;
         } else {
             feedback.add("Debe contener al menos una letra mayúscula.");
         }
 
         // Regla 3: Letras Minúsculas
-        if (password.matches(".*[a-z].*")) {
+        if (MINUSCULAS.matcher(password).matches()) {
             score++;
         } else {
             feedback.add("Debe contener al menos una letra minúscula.");
         }
 
         // Regla 4: Números
-        if (password.matches(".*[0-9].*")) {
+        if (NUMEROS.matcher(password).matches()) {
             score++;
         } else {
             feedback.add("Debe contener al menos un número.");
@@ -90,7 +100,7 @@ public class PasswordValidator {
 
         // Regla 5: Caracteres Especiales
         // Usamos una expresión regular que busca símbolos comunes
-        if (password.matches(".*[!@#$%^&*()\\-_=+\\[\\]{}|;:,.<>?].*")) {
+        if (ESPECIALES.matcher(password).matches()) {
             score++;
         } else {
             feedback.add("Debe contener al menos un carácter especial (ej. !, @, #, $, etc.).");
